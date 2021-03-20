@@ -1,6 +1,7 @@
 // Constant Variables
 const theMovieDbApi = '290b2e3aa081caf1278037c5c7ea24d1';
-const omdbApi = 'aa1a65fd';
+//const omdbApi = 'aa1a65fd';
+const omdbApi = '53aa2cd6';
 
 
 // state variables - data that changes
@@ -29,20 +30,23 @@ function handleClick (){
 
 function findMovie () {
     //uses themoviedb API
+    //We should not exit this function until imdbid has an id!!!!!!
     let latestId = 806765;     
-    let randomId = Math.floor(Math.random()*latestId) + 1;
-    imdbId = '';
+    let randomId = String(Math.floor(Math.random()*latestId) + 1);
     $.ajax(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${theMovieDbApi}&language=en-US`)
         .then(function (data){
-            console.log(data);
-            if (data.imdb_id !== "" && data.adult === false || data.imdb_id !== null && data.adult === false){
-                imdbId = data.imdb_id;
-                console.log(imdbId)
-            }else if(imdbId == null){
+            if(data.imdb_id === null && data.adult === true || data.imdb_id === 'null' && data.adult === true || data.imdb_id === '' && data.adult === true || data.adult === true){
                 findMovie();
+            }else {
+                //ISSUE #1 I AM STILL GETTING NULL AS IMDB ID!!!!!!!!
+                imdbId = data.imdb_id;
+                console.log('NO ERROR')
+                console.log(imdbId)
             }
         }, function(error){
+            //restart function
             console.log(error);
+            findMovie();
         });
 
     /* For Version 2: */
@@ -53,9 +57,9 @@ function findMovie () {
 
 function getData () {
     //uses omdbapi
-    //step 1) while numberOfMoives<=6 {}
     //while (numberOfMovies <= 6){
         findMovie();
+        //ISSUE #2 THIS API IS NOT RECOGNIZING MY IMDBID IN AJAX BUT THE ID WORKS WHEN YOU TYPE IT IN GOOGLE
         $.ajax(`https://www.omdbapi.com/?apikey=${omdbApi}&i=${imdbId}`)
             .then(function (data){
                 console.log(data);
@@ -70,6 +74,7 @@ function getData () {
                 //     numberOfMovies += 1;
                 //     console.log(randomMovie);
                 //     console.log(numberOfMovies);
+                //     imdbId = '';
                 // }
             }, function(error){
                 console.log(error);
