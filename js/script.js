@@ -85,12 +85,13 @@ function renderData (){
     //         <article class="card">
     //             <div class="container">
     //                 <div class="col-1">
-    //                     <h1 id="content">Movie Title</h1>
-    //                     <p id="content">Year Released</p>
-    //                     <p id="content">Rating</p>
+    //                     <h1 id="content">${randomMovie.Title}</h1>
+    //                     <p id="content">${randomMovie.Year}</p>
+    //                     //Get Rotten Tomatoes Rating [array withing array]
+    //                     <p id="content">${randomMovie.imdbRating}</p>
     //                 </div>
     //                 <div class="col-2">
-    //                     <img id="poster" src="" alt="">
+    //                     <img id="poster" src="${randomMovie.Poster}" alt="">
     //                 </div>
     //             </div>
     //         </article>
@@ -100,44 +101,4 @@ function renderData (){
     //randomId = "";
 }
 
-
-
-// // constant Variables - data that never changes
-// const BASE_URL = 'https://api.spacexdata.com/v3/launches';
-
-// // state variables - data that changes
-// let launches; 
-
-// // cached element references - parts of the dom we need to touch
-// const $launches = $('#launches');
-
-// //event listeners - capture and respond to events
-
-// //functions -  code that represents actions taken
-// init ();
-
-// function init (){
-//     getData();
-// }
-
-// function getData(){
-//     $.ajax(BASE_URL + '?limit=12')
-//         .then(function (data){
-//             launches = data;
-//             render();
-//         }, function(error){
-//             console.log(error);
-//         });
-// }
-
-// function render () {
-//     const html = launches.map(function(launch){
-//         return `
-//             <article class="card">
-//                 <h1>${launch.mission_name}</h1>
-//                 <p>${launch.launch_year}</p>
-//             </article>
-//         `;
-//     })
-//     $launches.append(html);
-// }
+/* For Modal:*/
