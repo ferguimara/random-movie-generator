@@ -1,4 +1,7 @@
-// constant Variables - data that never changes
+// Constant Variables
+const theMovieDbApi = '290b2e3aa081caf1278037c5c7ea24d1';
+const omdbApi = 'aa1a65fd';
+
 
 // state variables - data that changes
 let imdbId;
@@ -6,49 +9,78 @@ let randomMovie;
 let numberOfMovies = 0;
 let randomId;
 
-// cached element references - parts of the dom we need to touch
+// cached element references
 const $movies = $('#movies');
 const $generator = $('#generator');
 
 // event listeners - capture and respond to events
-$generator.on('click', getData);
+$generator.on('click', handleClick);
 
 // functions -  code that represents actions taken
 
 function init (){
-    imdbId = null;
     randomMovie = '';
     numberOfMovies = 0;
 }
 
+function handleClick (){
+    getData();
+}
+
 function findMovie () {
     //uses themoviedb API
-    //step 1) initiate variable, latestId [put this outside of this function -- start at random number]
-    //step 2) run ajax on latest ==> https://api.themoviedb.org/3/movie/latest?api_key=290b2e3aa081caf1278037c5c7ea24d1&language=en-US
-    //step 3) get the id for latest and store it in variable for latestID
-    //step 4) create variable randomId = random number between 0 and latest id
-    //step 5) load ajax with template literals adding variables for randomId and api key
-    //step 6) withing (.then function(data)), create if statement:
-        //6.1) if (data.imdb_id !== "" && data.adult === false) 
-        //6.2) imdbId = imdb_id
-        //6.3) console.log(imdbId)
-    //step 7) error function
+    let latestId = 806765;     
+    let randomId = Math.floor(Math.random()*latestId) + 1;
+    imdbId = '';
+    $.ajax(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${theMovieDbApi}&language=en-US`)
+        .then(function (data){
+            if (data.imdb_id !== "" && data.adult == false){
+                imdbId = data.imdb_id;
+                console.log(imdbId)
+            }else{
+                findMovie();
+            }
+        }, function(error){
+            console.log(error);
+        });
+
+    /* For Version 2: */
+    //Step 1) run ajax on latest ==> https://api.themoviedb.org/3/movie/latest?api_key=290b2e3aa081caf1278037c5c7ea24d1&language=en-US
+    //this will get the latest Id for movie
+    //step 2) get the id for latest and store it in variable for latestID
 }
 
 function getData () {
     //uses omdbapi
     //step 1) while numberOfMoives<=6 {}
-        //step 1.1) findMovie ();
-        //step 1.2) load ajax with template literals adding imdbId, apiKey,
-        //step 1.3) within (.then function data), create if statement:
-            //step 1.3.1) if type === movie && county === USA (REMINDER TO CONSIDER RATING IN V 1.2)
-            //step 1.3.2) randomMovie = data
-        //step 1.4) renderData()
-        //step 1.5) numberOfMovies += 1
+    //while (numberOfMovies <= 6){
+        findMovie();
+        $.ajax(`https://www.omdbapi.com/?apikey=${omdbApi}&i=${imdbId}`)
+            .then(function (data){
+                console.log(data);
+                //step 1.3) within (.then function data), create if statement:
+                //step 1.3.1) if type === movie && county === USA
+                // if(data.Type === 'movie' && data.Country === 'USA' && parseFloat(data.imdbRating)>=6.0){
+                //     //step 1.3.2) randomMovie = data
+                //     randomMovie = data;
+                //     //step 1.4) renderData()
+                //     renderData ();
+                //     //step 1.5) numberOfMovies += 1
+                //     numberOfMovies += 1;
+                //     console.log(randomMovie);
+                //     console.log(numberOfMovies);
+                // }
+            }, function(error){
+                console.log(error);
+        });
+    //}
+     
+    /* For Version 2: */
+    //1) Consider rating in if statement
 }
 
 function renderData (){
-    // const html = randomMovie.map(function(launch){
+    // const html = randomMovie.map(function(randomMovie){
     //     return `
     //         <article class="card">
     //             <div class="container">
