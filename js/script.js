@@ -1,23 +1,23 @@
 // Constant Variables
 const theMovieDbApi = '290b2e3aa081caf1278037c5c7ea24d1';
-//const omdbApi = 'aa1a65fd';
-const omdbApi = '53aa2cd6';
+const omdbApi = 'aa1a65fd';
 
 
-// state variables - data that changes
+
+// State Variables
 let imdbId;
 let randomMovie;
 let numberOfMovies = 0;
 let randomId;
 
-// cached element references
+// Cached Element References
 const $movies = $('#movies');
 const $generator = $('#generator');
 
-// event listeners - capture and respond to events
+// Event Listeners
 $generator.on('click', handleClick);
 
-// functions -  code that represents actions taken
+// Functions
 
 function init (){
     randomMovie = '';
@@ -30,7 +30,7 @@ function handleClick (){
 
 function findMovie () {
     //uses themoviedb API
-    //We should not exit this function until imdbid has an id!!!!!!
+    //We should ONLY exit this function when imdbid has an id!!!!!!
     let latestId = 806765;     
     let randomId = String(Math.floor(Math.random()*latestId) + 1);
     $.ajax(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${theMovieDbApi}&language=en-US`)
@@ -44,7 +44,6 @@ function findMovie () {
                 console.log(imdbId)
             }
         }, function(error){
-            //restart function
             console.log(error);
             findMovie();
         });
