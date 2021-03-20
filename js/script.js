@@ -34,10 +34,11 @@ function findMovie () {
     imdbId = '';
     $.ajax(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${theMovieDbApi}&language=en-US`)
         .then(function (data){
-            if (data.imdb_id !== "" && data.adult == false){
+            console.log(data);
+            if (data.imdb_id !== "" && data.adult === false || data.imdb_id !== null && data.adult === false){
                 imdbId = data.imdb_id;
                 console.log(imdbId)
-            }else{
+            }else if(imdbId == null){
                 findMovie();
             }
         }, function(error){
