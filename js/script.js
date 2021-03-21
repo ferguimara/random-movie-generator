@@ -1,8 +1,7 @@
 // Constant Variables
 const theMovieDbApi = '290b2e3aa081caf1278037c5c7ea24d1';
-const omdbApi = 'aa1a65fd';
-
-
+// const omdbApi = 'aa1a65fd';
+const omdbApi = '53aa2cd6';
 
 // State Variables
 let imdbId;
@@ -25,14 +24,11 @@ function init (){
 }
 
 function handleClick (){
-    // getData();
-    findMovie();
-
+    getData();
 }
 
 function findMovie () {
     //uses themoviedb API
-    //We should ONLY exit this function when imdbid has an id!!!!!!
     let latestId = 806765;     
     let randomId = String(Math.floor(Math.random()*latestId) + 1);
     $.ajax(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${theMovieDbApi}&language=en-US`)
@@ -51,17 +47,15 @@ function findMovie () {
             //     console.log('Error 3')
             //     randomId = String(Math.floor(Math.random()*latestId) + 1);
             if(data.adult == true){
-                //this error shows up
                 findMovie();
-                console.log('Error 4')
+                // console.log('Error 4')
             }else if (data.imdb_id==null || data.imdb_id == undefined || data.imdb_id == ' '){
-                //this error shows up
                 findMovie();
-                console.log('Error 5');
+                // console.log('Error 5');
             }else {
-                //ISSUE #1 I AM STILL GETTING NULL AS IMDB ID!!!!!!!!
+                //ISSUE #1 I AM STILL GETTING an empty IMDB ID!!!!!!!!
                 imdbId = data.imdb_id;
-                console.log('NO ERROR');
+                // console.log('NO ERROR');
                 console.log(imdbId);
             }
         }, function(error){
@@ -78,31 +72,23 @@ function findMovie () {
 function getData () {
     //uses omdbapi
     //while (numberOfMovies <= 6){
-        findMovie();
-        //ISSUE #2 THIS API IS NOT RECOGNIZING MY IMDBID IN AJAX BUT THE ID WORKS WHEN YOU TYPE IT IN GOOGLE
-        $.ajax(`https://www.omdbapi.com/?apikey=${omdbApi}&i=${imdbId}`)
-            .then(function (data){
-                console.log(data);
-                //step 1.3) within (.then function data), create if statement:
-                //step 1.3.1) if type === movie && county === USA
-                // if(data.Type === 'movie' && data.Country === 'USA' && parseFloat(data.imdbRating)>=6.0){
-                //     //step 1.3.2) randomMovie = data
-                //     randomMovie = data;
-                //     //step 1.4) renderData()
-                //     renderData ();
-                //     //step 1.5) numberOfMovies += 1
-                //     numberOfMovies += 1;
-                //     console.log(randomMovie);
-                //     console.log(numberOfMovies);
-                //     imdbId = '';
-                // }
-            }, function(error){
-                console.log(error);
-        });
-    //}
-     
+    findMovie();
+    $.ajax(`https://www.omdbapi.com/?apikey=${omdbApi}&i=${imdbId}`)
+        .then(function (data){
+            if(data.Type === 'movie' && data.Country === 'USA' && parseFloat(data.imdbRating)>=7.0){
+                randomMovie = data;
+                renderData ();
+                numberOfMovies += 1;
+                console.log(randomMovie);
+                console.log(numberOfMovies);
+                imdbId = '';
+            }
+        }, function(error){
+            console.log(error);
+    });
+ 
     /* For Version 2: */
-    //1) Consider rating in if statement
+    //1) Consider different ratings in if statement
 }
 
 function renderData (){
