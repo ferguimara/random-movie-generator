@@ -25,7 +25,9 @@ function init (){
 }
 
 function handleClick (){
-    getData();
+    // getData();
+    findMovie();
+
 }
 
 function findMovie () {
@@ -35,13 +37,32 @@ function findMovie () {
     let randomId = String(Math.floor(Math.random()*latestId) + 1);
     $.ajax(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${theMovieDbApi}&language=en-US`)
         .then(function (data){
-            if(data.imdb_id === null && data.adult === true || data.imdb_id === 'null' && data.adult === true || data.imdb_id === '' && data.adult === true || data.adult === true){
+            // if(data.imdb_id == null && data.adult == true) {
+            //     //this error shows up
+            //     findMovie();
+            //     console.log('Error 1');
+            //     randomId = String(Math.floor(Math.random()*latestId) + 1);
+            // }else if (data.imdb_id == 'null' && data.adult == true){
+            //     findMovie();
+            //     console.log('Error 2')
+            //     randomId = String(Math.floor(Math.random()*latestId) + 1);
+            // }else if(data.imdb_id == '' && data.adult == true){
+            //     findMovie();
+            //     console.log('Error 3')
+            //     randomId = String(Math.floor(Math.random()*latestId) + 1);
+            if(data.adult == true){
+                //this error shows up
                 findMovie();
+                console.log('Error 4')
+            }else if (data.imdb_id==null || data.imdb_id == undefined || data.imdb_id == ' '){
+                //this error shows up
+                findMovie();
+                console.log('Error 5');
             }else {
                 //ISSUE #1 I AM STILL GETTING NULL AS IMDB ID!!!!!!!!
                 imdbId = data.imdb_id;
-                console.log('NO ERROR')
-                console.log(imdbId)
+                console.log('NO ERROR');
+                console.log(imdbId);
             }
         }, function(error){
             console.log(error);
