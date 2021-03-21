@@ -8,6 +8,7 @@ let imdbId;
 let randomMovie;
 let numberOfMovies = 0;
 let randomId;
+let moviesArray;
 
 // Cached Element References
 const $movies = $('#movies');
@@ -15,12 +16,14 @@ const $generator = $('#generator');
 
 // Event Listeners
 $generator.on('click', handleClick);
+$movies.on('click', '.card', handleShowModal);
 
 // Functions
 
 function init (){
     randomMovie = '';
     numberOfMovies = 0;
+    moviesArray = '';
 }
 
 function handleClick (){
@@ -79,6 +82,7 @@ function getData () {
                 randomMovie = data;
                 renderData ();
                 numberOfMovies += 1;
+                moviesArray.push(randomMovie);
                 console.log(randomMovie);
                 console.log(numberOfMovies);
                 imdbId = '';
@@ -92,25 +96,42 @@ function getData () {
 }
 
 function renderData (){
-    // const html = randomMovie.map(function(randomMovie){
-    //     return `
-    //         <article class="card">
-    //             <div class="container">
-    //                 <div class="col-1">
-    //                     <h1 id="content">${randomMovie.Title}</h1>
-    //                     <p id="content">${randomMovie.Year}</p>
-    //                     //Get Rotten Tomatoes Rating [array withing array]
-    //                     <p id="content">${randomMovie.imdbRating}</p>
-    //                 </div>
-    //                 <div class="col-2">
-    //                     <img id="poster" src="${randomMovie.Poster}" alt="">
-    //                 </div>
-    //             </div>
-    //         </article>
-    //     `;
-    // })
-    // $movies.append(html);
-    //randomId = "";
+    const html = randomMovie.map(function(movie){
+        return `
+            <article data-imdbId="${movie.imdbID}"class="card">
+                <div class="container">
+                    <div class="col-1">
+                        <h1 id="content">${movie.Title}</h1>
+                        <p id="content">${movie.Year}</p>
+                        //Get Rotten Tomatoes Rating [array withing array]
+                        <p id="content">${movie.imdbRating}</p>
+                    </div>
+                    <div class="col-2">
+                        <img id="poster" src="${movie.Poster}" alt="">
+                    </div>
+                </div>
+            </article>
+        `;
+    })
+    $movies.append(html);
+    randomId = "";
 }
 
 /* For Modal:*/
+
+// function handleShowModal(){
+//     const movieId = parseInt(this.dataset.imdbId);
+//     const selectedMovie = moviesArray.find(function(movie) {
+//         return movie.imdbID === movieId;
+//     });
+
+//     //add the content to the modal
+//     $('#img').attr({src: selectedMovie.Poster, alt:selectedMovie.Title})
+//     $('#title').text(selectedMovie.mission_name);
+//     $('#year').text(${selectedMovie.launch_year});
+//     $('#directors').text(`Directors: ${selectedMovie.Director}`);
+//     $('#actors').text(`Acrtors: ${selectedMovie.Actors}`);
+//     $('#plot').text(`Plot: ${selectedMovie.Plot}`);
+    
+//     $('.modal').modal();
+// }
