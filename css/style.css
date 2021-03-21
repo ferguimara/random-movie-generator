@@ -17,8 +17,8 @@ header, footer {
 header {
     padding-left: 15px;
     padding-right: 15px;
-    background-color: navy;
-    color: #fff;
+    background-color: #3A3A3A;
+    color: #DBDBDB;
     box-shadow: 1px 1px 3px 2px #dfd5d5;
 }
 
@@ -26,15 +26,15 @@ header>button{
     margin-left: auto;
     font-size: 20px;
     border-radius: 8px;
-    background-color: white;
-    border: 2px solid black;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    background-color: #0071E3;
+    color: white;
+    border: 2px solid #0071E3;
 }
 
 #generator:hover{
-    background-color: navy;
-    color: white;
-    border: 2px solid white;
+    background-color: white;
+    color: #0071E3;
+    border: 2px solid #0071E3;
 }
 
 main {
@@ -62,6 +62,7 @@ main {
 }
 footer {
     justify-content: center;
+    color: #DBDBDB
 }
 
 .col-1 {
