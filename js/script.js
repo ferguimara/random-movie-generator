@@ -52,7 +52,7 @@ function findMovie () {
             if(data.adult == true){
                 findMovie();
                 // console.log('Error 4')
-            }else if (data.imdb_id==null || data.imdb_id == undefined || data.imdb_id == ' '){
+            }else if (data.imdb_id==null || data.imdb_id == undefined || data.imdb_id == ' ' || data.imdb_id == ''){
                 findMovie();
                 // console.log('Error 5');
             }else {
@@ -74,64 +74,61 @@ function findMovie () {
 
 function getData () {
     //uses omdbapi
-    //while (numberOfMovies <= 6){
-    findMovie();
-    $.ajax(`https://www.omdbapi.com/?apikey=${omdbApi}&i=${imdbId}`)
-        .then(function (data){
-            if(data.Type === 'movie' && data.Country === 'USA' && parseFloat(data.imdbRating)>=7.0){
-                randomMovie = data;
-                renderData ();
-                numberOfMovies += 1;
-                moviesArray.push(randomMovie);
-                console.log(randomMovie);
-                console.log(numberOfMovies);
-                imdbId = '';
-            }
-        }, function(error){
-            console.log(error);
-    });
- 
+    do {
+        findMovie();
+        $.ajax(`https://www.omdbapi.com/?apikey=${omdbApi}&i=${imdbId}`)
+            .then(function (data){
+                if(data.Type === 'movie' && data.Country === 'USA' && parseFloat(data.imdbRating)>=7.0){
+                    randomMovie = data;
+                    renderData ();
+                    numberOfMovies += 1;
+                    moviesArray.push(randomMovie);
+                    console.log(randomMovie);
+                    console.log(numberOfMovies);
+                    imdbId = '';
+                }
+            }, function(error){
+                console.log(error);
+        });
+    } while (numberOfMovies <= 6)
     /* For Version 2: */
     //1) Consider different ratings in if statement
 }
 
 function renderData (){
-    const html = randomMovie.map(function(movie){
-        return `
-            <article data-imdbId="${movie.imdbID}"class="card">
+    const html = `
+            <article data-imdbId="${randomMovie.imdbID}"class="card">
                 <div class="container">
                     <div class="col-1">
-                        <h1 id="content">${movie.Title}</h1>
-                        <p id="content">${movie.Year}</p>
-                        //Get Rotten Tomatoes Rating [array withing array]
-                        <p id="content">${movie.imdbRating}</p>
+                        <h1 id="content">${randomMovie.Title}</h1>
+                        <p id="content">${randomMovie.Year}</p>
+                        <p id="content">${randomMovie.imdbRating}</p>
                     </div>
                     <div class="col-2">
-                        <img id="poster" src="${movie.Poster}" alt="">
+                        <img id="poster" src="${randomMovie.Poster}" alt="">
                     </div>
                 </div>
             </article>
         `;
-    })
     $movies.append(html);
     randomId = "";
 }
 
 /* For Modal:*/
 
-// function handleShowModal(){
-//     const movieId = parseInt(this.dataset.imdbId);
-//     const selectedMovie = moviesArray.find(function(movie) {
-//         return movie.imdbID === movieId;
-//     });
+function handleShowModal(){
+    // const movieId = parseInt(this.dataset.imdbId);
+    // const selectedMovie = moviesArray.find(function(movie) {
+    //     return movie.imdbID === movieId;
+    // });
 
-//     //add the content to the modal
-//     $('#img').attr({src: selectedMovie.Poster, alt:selectedMovie.Title})
-//     $('#title').text(selectedMovie.mission_name);
-//     $('#year').text(${selectedMovie.launch_year});
-//     $('#directors').text(`Directors: ${selectedMovie.Director}`);
-//     $('#actors').text(`Acrtors: ${selectedMovie.Actors}`);
-//     $('#plot').text(`Plot: ${selectedMovie.Plot}`);
+    // //add the content to the modal
+    // $('#img').attr({src: selectedMovie.Poster, alt:selectedMovie.Title})
+    // $('#title').text(selectedMovie.mission_name);
+    // $('#year').text(${selectedMovie.launch_year});
+    // $('#directors').text(`Directors: ${selectedMovie.Director}`);
+    // $('#actors').text(`Acrtors: ${selectedMovie.Actors}`);
+    // $('#plot').text(`Plot: ${selectedMovie.Plot}`);
     
-//     $('.modal').modal();
-// }
+    // $('.modal').modal();
+}
