@@ -1,12 +1,12 @@
 // Constant Variables
 const theMovieDbApi = '290b2e3aa081caf1278037c5c7ea24d1';
 // const omdbApi = 'aa1a65fd';
-const omdbApi = '53aa2cd6';
+const omdbApi = 'e79c6fcf';
 
 // State Variables
 let imdbId;
 let randomMovie;
-let numberOfMovies = 0;
+var numberOfMovies = 0;
 let randomId;
 let moviesArray;
 
@@ -36,27 +36,13 @@ function findMovie () {
     let randomId = String(Math.floor(Math.random()*latestId) + 1);
     $.ajax(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${theMovieDbApi}&language=en-US`)
         .then(function (data){
-            // if(data.imdb_id == null && data.adult == true) {
-            //     //this error shows up
-            //     findMovie();
-            //     console.log('Error 1');
-            //     randomId = String(Math.floor(Math.random()*latestId) + 1);
-            // }else if (data.imdb_id == 'null' && data.adult == true){
-            //     findMovie();
-            //     console.log('Error 2')
-            //     randomId = String(Math.floor(Math.random()*latestId) + 1);
-            // }else if(data.imdb_id == '' && data.adult == true){
-            //     findMovie();
-            //     console.log('Error 3')
-            //     randomId = String(Math.floor(Math.random()*latestId) + 1);
             if(data.adult == true){
                 findMovie();
                 // console.log('Error 4')
-            }else if (data.imdb_id==null || data.imdb_id == undefined || data.imdb_id == ' ' || data.imdb_id == ''){
+            }else if (data.imdb_id == null || data.imdb_id == undefined || data.imdb_id == ' ' || data.imdb_id == ''){
                 findMovie();
                 // console.log('Error 5');
             }else {
-                //ISSUE #1 I AM STILL GETTING an empty IMDB ID!!!!!!!!
                 imdbId = data.imdb_id;
                 // console.log('NO ERROR');
                 console.log(imdbId);
@@ -74,25 +60,26 @@ function findMovie () {
 
 function getData () {
     //uses omdbapi
-    do {
+    // while (numberOfMovies <= 6) {
         findMovie();
         $.ajax(`https://www.omdbapi.com/?apikey=${omdbApi}&i=${imdbId}`)
             .then(function (data){
                 if(data.Type === 'movie' && data.Country === 'USA' && parseFloat(data.imdbRating)>=7.0){
                     randomMovie = data;
                     renderData ();
-                    numberOfMovies += 1;
-                    moviesArray.push(randomMovie);
-                    console.log(randomMovie);
-                    console.log(numberOfMovies);
+                    // moviesArray.push(Object.keys(randomMovie).map(i => randomMovie[i]));
+                    // console.log(randomMovie);
                     imdbId = '';
+                }else{
+                    getData();
                 }
             }, function(error){
                 console.log(error);
-        });
-    } while (numberOfMovies <= 6)
+                getData();
+            });
+    // } 
     /* For Version 2: */
-    //1) Consider different ratings in if statement
+    //1) Consider different ratings in if statement like rotten tomatoes 
 }
 
 function renderData (){
@@ -111,13 +98,13 @@ function renderData (){
             </article>
         `;
     $movies.append(html);
-    randomId = "";
+    randomId = '';
+    // imdbId = '';
 }
 
 /* For Modal:*/
-
 function handleShowModal(){
-    // const movieId = parseInt(this.dataset.imdbId);
+    // const movieId = this.dataset.imdbId;
     // const selectedMovie = moviesArray.find(function(movie) {
     //     return movie.imdbID === movieId;
     // });
@@ -125,7 +112,7 @@ function handleShowModal(){
     // //add the content to the modal
     // $('#img').attr({src: selectedMovie.Poster, alt:selectedMovie.Title})
     // $('#title').text(selectedMovie.mission_name);
-    // $('#year').text(${selectedMovie.launch_year});
+    // $('#year').text(selectedMovie.launch_year);
     // $('#directors').text(`Directors: ${selectedMovie.Director}`);
     // $('#actors').text(`Acrtors: ${selectedMovie.Actors}`);
     // $('#plot').text(`Plot: ${selectedMovie.Plot}`);

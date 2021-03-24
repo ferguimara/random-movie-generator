@@ -62,7 +62,8 @@ main {
 }
 footer {
     justify-content: center;
-    color: #DBDBDB
+    color: #DBDBDB;
+    background-color: #F5F5F7;
 }
 
 .container {
