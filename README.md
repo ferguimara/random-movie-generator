@@ -14,7 +14,7 @@ Have you ever sat on your couch wondering what movie you should watch? That is t
 ![wireframe](https://i.imgur.com/EeRqafb.png)
 
 ## Getting Started
-[Click here](#) to get started
+[Click here](https://ferguimara.github.io/random-movie-generator/) to get started
 
 ## Future Enhancements
 - Fix rating filter to go by Rotten Tomatoes versus IMDB
