@@ -69,12 +69,11 @@ function getData () {
                 if(data.Type === 'movie' && data.Country === 'USA' && parseFloat(data.imdbRating)>=7.0){
                     randomMovie = data;
                     //why am I not getting a key/value pair they work in REPL!!!!!!!
-                    let randomMovieArray = []
-                    Object.keys(randomMovie).map(function(key){
-                        randomMoviesArray.push({[key]:randomMovie[key]})
-                    });
-                    moviesArray.push(randomMovieArray);
-                    // moviesArray.push(Object.keys(data).map(i => data[i]))
+                    // let randomMovieArray = []
+                    // Object.keys(randomMovie).map(function(key){
+                    //     randomMoviesArray.push({[key]:randomMovie[key]})
+                    // });
+                    // moviesArray.push(randomMovieArray);
                     renderData ();
                     // console.log(randomMovie);
                     imdbId = '';
@@ -113,18 +112,18 @@ function renderData (){
 
 /* For Modal:*/
 function handleShowModal(){
-    const movieId = this.dataset.imdbId;
-    const selectedMovie = moviesArray.find(function(movie) {
-        return movie.imdbID == movieId;
-    });
+    // const movieId = this.dataset.imdbId;
+    // const selectedMovie = moviesArray.find(function(movie) {
+    //     return movie.imdbID == movieId;
+    // });
 
-    //add the content to the modal
-    $('#img').attr({src: selectedMovie.Poster, alt:selectedMovie.Title})
-    $('#title').text(selectedMovie.mission_name);
-    $('#year').text(selectedMovie.launch_year);
-    $('#directors').text(`Directors: ${selectedMovie.Director}`);
-    $('#actors').text(`Actors: ${selectedMovie.Actors}`);
-    $('#plot').text(`Plot: ${selectedMovie.Plot}`);
+    // //add the content to the modal
+    // $('#img').attr({src: selectedMovie.Poster, alt:selectedMovie.Title})
+    // $('#title').text(selectedMovie.mission_name);
+    // $('#year').text(selectedMovie.launch_year);
+    // $('#directors').text(`Directors: ${selectedMovie.Director}`);
+    // $('#actors').text(`Actors: ${selectedMovie.Actors}`);
+    // $('#plot').text(`Plot: ${selectedMovie.Plot}`);
     
-    $('.modal').modal();
+    // $('.modal').modal();
 }
