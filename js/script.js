@@ -6,7 +6,7 @@ const omdbApi = 'e79c6fcf';
 // State Variables
 let imdbId;
 let randomMovie;
-var numberOfMovies = 0;
+let numberOfMovies = 0;
 let randomId;
 let moviesArray = [];
 let randomMovieArray;
@@ -61,10 +61,11 @@ function findMovie () {
 
 function getData () {
     //uses omdbapi
-    // while (numberOfMovies <= 6) {
+    // while (numberOfMovies <= 6) { try length on array function
         findMovie();
         $.ajax(`https://www.omdbapi.com/?apikey=${omdbApi}&i=${imdbId}`)
             .then(function (data){
+                //if has rotten tomatoes rating and has a rating over x
                 if(data.Type === 'movie' && data.Country === 'USA' && parseFloat(data.imdbRating)>=7.0){
                     randomMovie = data;
                     //why am I not getting a key/value pair they work in REPL!!!!!!!
